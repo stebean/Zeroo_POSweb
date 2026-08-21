@@ -1,5 +1,6 @@
 // src/context/AppContext.jsx
 // Contexto global de la app — maneja productos, carrito y estado de carga
+// Cada usuario ve y modifica SOLO su propio inventario (aislado por owner_id)
 
 import { createContext, useContext, useState, useEffect, useCallback } from 'react'
 import { supabase } from '../lib/supabase'
@@ -8,7 +9,7 @@ import { SAMPLE_PRODUCTS, SAMPLE_ALIASES } from '../data/sampleProducts'
 
 const AppContext = createContext(null)
 
-export function AppProvider({ children, addToast }) {
+export function AppProvider({ children, addToast, user }) {
   // Estado de productos y catálogo
   const [products, setProducts] = useState([])
   const [aliases, setAliases] = useState([])
@@ -18,10 +19,11 @@ export function AppProvider({ children, addToast }) {
   // Estado del carrito
   const [cart, setCart] = useState([])
 
-  // Carga de productos desde Supabase o datos de demo
+  // Carga de productos del usuario actual (filtrado por owner_id via RLS)
   const loadProducts = useCallback(async () => {
     setLoadingProducts(true)
     try {
+      // RLS en Supabase filtra automáticamente por auth.uid() = owner_id
       const { data, error } = await supabase
         .from('products')
         .select('*')
@@ -47,9 +49,10 @@ export function AppProvider({ children, addToast }) {
     }
   }, [])
 
+  // Recargar productos cuando cambia el usuario (login/logout)
   useEffect(() => {
     loadProducts()
-  }, [loadProducts])
+  }, [loadProducts, user?.id])
 
   // --- Carrito ---
 
@@ -118,21 +121,17 @@ export function AppProvider({ children, addToast }) {
           return product
         })
       )
-      // Actualizar stock en el carrito también
-      setCart(prev =>
-        prev.map(item => ({
-          ...item,
-          stock: item.stock - item.quantity,
-        }))
-      )
       clearCart()
       return
     }
 
-    // Modo real: guardar en Supabase
+    // Modo real: guardar en Supabase con owner_id del usuario actual
     const { data: sale, error: saleError } = await supabase
       .from('sales')
-      .insert({ total: cartTotal })
+      .insert({
+        total: cartTotal,
+        owner_id: user.id,  // aislamiento por usuario
+      })
       .select()
       .single()
 
@@ -153,7 +152,7 @@ export function AppProvider({ children, addToast }) {
 
     if (itemsError) throw itemsError
 
-    // Descontar stock (RPC o update individual)
+    // Descontar stock (la función SQL valida owner_id internamente)
     for (const item of cart) {
       await supabase.rpc('decrement_stock', {
         p_product_id: item.product_id,
@@ -163,13 +162,14 @@ export function AppProvider({ children, addToast }) {
 
     await loadProducts()
     clearCart()
-  }, [cart, cartTotal, isDemo, clearCart, loadProducts])
+  }, [cart, cartTotal, isDemo, user, clearCart, loadProducts])
 
   // --- Confirmar ingreso de inventario ---
 
   const confirmInventoryEntry = useCallback(async (rawItems, purchaseId) => {
     // Validar y sanitizar todos los items antes de persistir
     const items = validatePurchaseItems(rawItems)
+
     if (isDemo) {
       // Modo demo: actualizar estado local
       setProducts(prev => {
@@ -210,7 +210,7 @@ export function AppProvider({ children, addToast }) {
 
     for (const item of items) {
       if (!item.is_new && item.matched_product) {
-        // Actualizar stock existente
+        // Actualizar stock existente (RLS garantiza que sea del usuario)
         const { error } = await supabase
           .from('products')
           .update({
@@ -234,7 +234,7 @@ export function AppProvider({ children, addToast }) {
           }
         }
       } else {
-        // Crear producto nuevo
+        // Crear producto nuevo con owner_id del usuario actual
         const { data: newProduct, error } = await supabase
           .from('products')
           .insert({
@@ -243,13 +243,13 @@ export function AppProvider({ children, addToast }) {
             cost_price: item.unit_cost,
             sale_price: parseFloat(item.sale_price) || item.unit_cost * 1.3,
             stock: item.quantity,
+            owner_id: user.id,  // aislamiento por usuario
           })
           .select()
           .single()
 
         if (!error && newProduct) {
           createdCount++
-          // Guardar alias original del proveedor
           await supabase.from('product_aliases').insert({
             product_id: newProduct.id,
             alias: item.raw_name,
@@ -268,7 +268,7 @@ export function AppProvider({ children, addToast }) {
 
     await loadProducts()
     return { updated: updatedCount, created: createdCount }
-  }, [isDemo, aliases, loadProducts])
+  }, [isDemo, user, aliases, loadProducts])
 
   const value = {
     products,

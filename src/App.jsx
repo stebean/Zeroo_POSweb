@@ -155,9 +155,9 @@ function AuthGate() {
   // Sin sesión → mostrar login
   if (!user) return <LoginScreen />
 
-  // Con sesión → mostrar app
+  // Con sesión → mostrar app (pasamos user para aislar datos por usuario)
   return (
-    <AppProvider addToast={addToast}>
+    <AppProvider addToast={addToast} user={user}>
       <AppShell />
       <Toast toasts={toasts} removeToast={removeToast} />
     </AppProvider>
