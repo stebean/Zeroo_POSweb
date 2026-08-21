@@ -2,7 +2,7 @@
 // Módulo de inventario: upload + extracción IA + Split View + lista de inventario
 
 import { useState, useCallback } from 'react'
-import { Upload, List, RotateCcw } from 'lucide-react'
+import { Upload, List, RotateCcw, FileText } from 'lucide-react'
 import { useApp } from '../../context/AppContext'
 import { extractProductsFromDocument } from '../../lib/gemini'
 import { matchExtractedItems } from '../../lib/matching'
@@ -133,7 +133,7 @@ export default function Inventario({ addToast }) {
           {/* Panel izquierdo: upload / preview documento */}
           <div className="split-left">
             <div className="split-section-header">
-              <h2>Factura, ticket o nota de compra</h2>
+              <h2>{view === 'review' ? 'Comprobante analizado' : 'Factura, ticket o nota de compra'}</h2>
               {view === 'review' && (
                 <button
                   className="btn btn-secondary btn-sm"
@@ -145,14 +145,31 @@ export default function Inventario({ addToast }) {
                 </button>
               )}
             </div>
-            <UploadZone
-              onFileSelected={handleFileSelected}
-              onSampleInvoice={handleSampleInvoice}
-              isProcessing={isProcessing}
-            />
+
+            {view === 'review' ? (
+              <div className="analyzed-doc-card">
+                <div className="analyzed-doc-icon">
+                  <FileText size={22} color="var(--accent)" />
+                </div>
+                <div className="analyzed-doc-details">
+                  <span className="analyzed-doc-name">
+                    {selectedFile ? selectedFile.name : 'factura-ejemplo.txt'}
+                  </span>
+                  <span className="analyzed-doc-badge">
+                    ✓ IA completada · {extractedItems.length} productos
+                  </span>
+                </div>
+              </div>
+            ) : (
+              <UploadZone
+                onFileSelected={handleFileSelected}
+                onSampleInvoice={handleSampleInvoice}
+                isProcessing={isProcessing}
+              />
+            )}
 
             {/* Preview del documento seleccionado (imagen) */}
-            {selectedFile && selectedFile.type.startsWith('image/') && view === 'review' && (
+            {selectedFile && selectedFile.type?.startsWith('image/') && view === 'review' && (
               <div className="doc-preview-img">
                 <img
                   src={URL.createObjectURL(selectedFile)}

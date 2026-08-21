@@ -7,6 +7,8 @@
   height: 100%;
   position: relative;
   min-height: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Resumen de badges */
@@ -27,11 +29,13 @@
   -webkit-overflow-scrolling: touch;
   background: var(--bg-elevated);
   min-height: 200px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .extraction-table {
   width: 100%;
-  min-width: 600px; /* Garantizar ancho mínimo para que la tabla sea legible y editable en móvil */
+  min-width: 580px; /* Ancho mínimo para legibilidad */
   border-collapse: collapse;
   font-size: var(--text-sm);
 }
@@ -100,7 +104,7 @@
 /* Select de producto */
 .product-select {
   width: 100%;
-  min-width: 160px;
+  min-width: 150px;
 }
 
 /* Toggle nuevo/existente */
@@ -132,7 +136,7 @@
   font-size: var(--text-sm);
 }
 
-/* Barra de confirmar (Sticky al pie para que siempre sea visible en móvil/desktop) */
+/* Barra de confirmar */
 .extraction-confirm-bar {
   display: flex;
   align-items: center;
@@ -143,40 +147,51 @@
   background: var(--bg-elevated);
   border-radius: var(--radius-md);
   flex-shrink: 0;
-  position: sticky;
-  bottom: 0;
-  z-index: 10;
-  box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 @media (max-width: 767px) {
   .extraction-table-wrapper {
     height: auto;
+    overflow: visible;
   }
 
   .extraction-table-container {
-    max-height: 380px;
+    max-height: none;
+    overflow-x: auto;
   }
 
   .extraction-confirm-bar {
-    flex-direction: column;
-    align-items: stretch;
-    padding: var(--space-3);
-    position: sticky;
-    bottom: 0;
+    position: fixed;
+    bottom: 72px; /* Justo sobre la barra inferior 'Caja/Inventario' */
     left: 0;
     right: 0;
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
+    padding: 10px 14px;
+    background: var(--bg-elevated);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    border-radius: 0;
     box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.12);
-    border: 1px solid var(--border);
-    margin-top: var(--space-2);
+    z-index: 90;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+
+  .extraction-confirm-bar p {
+    font-size: 11px !important;
+    text-align: center;
+    margin: 0;
   }
 
   .extraction-confirm-bar .btn {
     width: 100%;
     justify-content: center;
-  }
-
-  .extraction-summary {
-    font-size: var(--text-xs);
+    padding: 12px 16px;
+    font-size: var(--text-base);
   }
 }
