@@ -9,15 +9,6 @@
   box-sizing: border-box;
 }
 
-/* Indicador de scroll horizontal en móvil */
-.mobile-scroll-hint {
-  display: none;
-  font-size: 11px;
-  color: var(--accent);
-  font-weight: 500;
-  text-align: right;
-}
-
 /* Resumen de badges */
 .extraction-summary {
   display: flex;
@@ -27,14 +18,15 @@
   flex-wrap: wrap;
 }
 
-/* Tabla con scroll horizontal y vertical suave */
-.extraction-table-container {
-  overflow-x: auto;
-  overflow-y: auto;
+/* ============================================================
+   VISTA DESKTOP: TABLA
+   ============================================================ */
+.extraction-desktop-container {
+  display: block;
+  overflow: auto;
+  flex: 1;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  -webkit-overflow-scrolling: touch;
-  touch-action: pan-x pan-y;
   background: var(--bg-elevated);
   width: 100%;
   box-sizing: border-box;
@@ -43,7 +35,6 @@
 
 .extraction-table {
   width: 100%;
-  min-width: 660px; /* Garantizar ancho para ver clave, catálogo, cant, costo y precio sin apretarse */
   border-collapse: collapse;
   font-size: var(--text-sm);
 }
@@ -119,7 +110,7 @@
 .toggle-new-btn {
   background: none;
   border: none;
-  font-size: 10px;
+  font-size: 11px;
   color: var(--accent);
   cursor: pointer;
   padding: 2px 0;
@@ -144,7 +135,79 @@
   font-size: var(--text-sm);
 }
 
-/* Barra de confirmar en flujo normal */
+/* ============================================================
+   VISTA MÓVIL: TARJETAS VERTICALES
+   ============================================================ */
+.extraction-mobile-cards {
+  display: none; /* Oculto por defecto en desktop */
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.extraction-mobile-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  box-shadow: var(--shadow-sm);
+  box-sizing: border-box;
+}
+
+.extraction-mobile-card.is-new {
+  border-left: 4px solid var(--new-badge);
+}
+
+.mobile-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px dashed var(--border);
+  padding-bottom: 8px;
+}
+
+.mobile-card-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mobile-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.mobile-card-inputs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1.2fr;
+  gap: var(--space-2);
+  background: var(--bg-secondary);
+  padding: 8px;
+  border-radius: var(--radius-sm);
+}
+
+.mobile-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mobile-input-group .input {
+  width: 100%;
+  padding: 6px 8px;
+  text-align: right;
+  font-size: var(--text-sm);
+}
+
+/* ============================================================
+   BARRA DE CONFIRMACIÓN
+   ============================================================ */
 .extraction-confirm-bar {
   display: flex;
   align-items: center;
@@ -159,22 +222,24 @@
   margin-top: var(--space-2);
 }
 
+/* ============================================================
+   RESPONSIVE MEDIA QUERIES
+   ============================================================ */
 @media (max-width: 767px) {
-  .mobile-scroll-hint {
-    display: block;
+  .extraction-desktop-container {
+    display: none; /* Ocultar tabla horizontal pesada */
   }
 
-  .extraction-table-container {
-    max-height: 360px; /* Altura acotada en móvil para scroll interno limpio */
+  .extraction-mobile-cards {
+    display: flex; /* Activar tarjetas verticales en celular */
   }
 
   .extraction-confirm-bar {
-    position: static; /* Estático: NUNCA tapa productos de la tabla */
     flex-direction: column;
     align-items: stretch;
     padding: var(--space-3);
     gap: var(--space-2);
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-6);
   }
 
   .extraction-confirm-bar p {
