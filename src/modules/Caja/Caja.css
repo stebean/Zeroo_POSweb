@@ -1,0 +1,98 @@
+/* src/modules/Caja/Caja.css */
+
+.caja-layout {
+  display: flex;
+  height: calc(100dvh - 56px);
+  overflow: hidden;
+}
+
+.caja-main {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-5) var(--space-5) 140px; /* espacio para mobile trigger */
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* Buscador */
+.caja-search-bar {
+  position: relative;
+  max-width: 420px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.caja-search-input {
+  padding-left: 38px;
+}
+
+/* Grid de productos */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}
+
+@media (min-width: 640px) {
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .product-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .caja-main {
+    padding-bottom: var(--space-5);
+  }
+}
+
+@media (min-width: 1440px) {
+  .product-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+/* Skeleton loader */
+.product-card-skeleton {
+  height: 130px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(90deg, var(--bg-secondary) 25%, var(--border) 50%, var(--bg-secondary) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}
+
+/* Estado vacío */
+.caja-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-10);
+  color: var(--text-disabled);
+  text-align: center;
+}
+
+.caja-empty-state p {
+  font-size: var(--text-lg);
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.caja-empty-state span {
+  font-size: var(--text-sm);
+}

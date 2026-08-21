@@ -1,0 +1,133 @@
+/* src/modules/Inventario/Inventario.css */
+
+.inventario-layout {
+  display: flex;
+  flex-direction: column;
+  height: calc(100dvh - 56px);
+  overflow: hidden;
+}
+
+/* Sub-navegación */
+.inventario-subnav {
+  display: flex;
+  gap: 2px;
+  padding: var(--space-3) var(--space-5);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-elevated);
+  flex-shrink: 0;
+}
+
+.subnav-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 150ms ease;
+}
+
+.subnav-tab:hover { color: var(--text-primary); background: var(--bg-secondary); }
+
+.subnav-tab.active {
+  color: var(--accent);
+  background: var(--accent-light);
+  font-weight: 600;
+}
+
+/* Lista de inventario */
+.inventario-list-view {
+  flex: 1;
+  overflow: hidden;
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Split View */
+.inventario-split {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+  padding: var(--space-5);
+  overflow: hidden;
+}
+
+.inventario-split.show-split {
+  grid-template-columns: 1fr 1fr;
+}
+
+.split-left,
+.split-right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  overflow: hidden;
+}
+
+.split-left {
+  overflow-y: auto;
+}
+
+.split-right {
+  overflow: hidden;
+}
+
+/* Header de sección */
+.split-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.split-section-header h2 {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Preview imagen del documento */
+.doc-preview-img {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  max-height: 400px;
+  flex-shrink: 0;
+}
+
+.doc-preview-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: var(--bg-secondary);
+}
+
+/* ── Responsive ── */
+@media (max-width: 1023px) {
+  .inventario-split.show-split {
+    grid-template-columns: 1fr;
+    overflow-y: auto;
+  }
+
+  .split-right {
+    overflow: visible;
+  }
+}
+
+@media (max-width: 767px) {
+  .inventario-split {
+    padding: var(--space-4);
+  }
+
+  .inventario-subnav {
+    padding: var(--space-3) var(--space-4);
+  }
+}
