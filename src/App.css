@@ -24,3 +24,33 @@
   border-radius: var(--radius-full);
   background: var(--bg-secondary);
 }
+
+/* Avatar de usuario */
+.nav-user {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  border: 1.5px solid var(--border);
+}
+
+.nav-avatar-placeholder {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  background: var(--accent-light);
+  color: var(--accent);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--border);
+}
+

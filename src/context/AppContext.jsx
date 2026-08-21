@@ -3,6 +3,7 @@
 
 import { createContext, useContext, useState, useEffect, useCallback } from 'react'
 import { supabase } from '../lib/supabase'
+import { validatePurchaseItems } from '../lib/validate'
 import { SAMPLE_PRODUCTS, SAMPLE_ALIASES } from '../data/sampleProducts'
 
 const AppContext = createContext(null)
@@ -166,7 +167,9 @@ export function AppProvider({ children, addToast }) {
 
   // --- Confirmar ingreso de inventario ---
 
-  const confirmInventoryEntry = useCallback(async (items, purchaseId) => {
+  const confirmInventoryEntry = useCallback(async (rawItems, purchaseId) => {
+    // Validar y sanitizar todos los items antes de persistir
+    const items = validatePurchaseItems(rawItems)
     if (isDemo) {
       // Modo demo: actualizar estado local
       setProducts(prev => {
