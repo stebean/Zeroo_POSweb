@@ -192,7 +192,7 @@
 
   .inventario-split {
     padding: var(--space-3);
-    padding-bottom: 150px; /* Espacio reservado para el boton fijo de confirmacion + bottom nav */
+    padding-bottom: 90px; /* Espacio para librar la barra de navegacion inferior */
     overflow-y: visible;
     gap: var(--space-4);
   }

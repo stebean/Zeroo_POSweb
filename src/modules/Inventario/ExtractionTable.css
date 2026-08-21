@@ -3,12 +3,19 @@
 .extraction-table-wrapper {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
-  height: 100%;
+  gap: var(--space-3);
   position: relative;
-  min-height: 0;
   width: 100%;
   box-sizing: border-box;
+}
+
+/* Indicador de scroll horizontal en móvil */
+.mobile-scroll-hint {
+  display: none;
+  font-size: 11px;
+  color: var(--accent);
+  font-weight: 500;
+  text-align: right;
 }
 
 /* Resumen de badges */
@@ -20,22 +27,23 @@
   flex-wrap: wrap;
 }
 
-/* Tabla */
+/* Tabla con scroll horizontal y vertical suave */
 .extraction-table-container {
-  overflow: auto;
-  flex: 1;
+  overflow-x: auto;
+  overflow-y: auto;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   -webkit-overflow-scrolling: touch;
+  touch-action: pan-x pan-y;
   background: var(--bg-elevated);
-  min-height: 200px;
   width: 100%;
   box-sizing: border-box;
+  max-height: 440px;
 }
 
 .extraction-table {
   width: 100%;
-  min-width: 580px; /* Ancho mínimo para legibilidad */
+  min-width: 660px; /* Garantizar ancho para ver clave, catálogo, cant, costo y precio sin apretarse */
   border-collapse: collapse;
   font-size: var(--text-sm);
 }
@@ -104,7 +112,7 @@
 /* Select de producto */
 .product-select {
   width: 100%;
-  min-width: 150px;
+  min-width: 160px;
 }
 
 /* Toggle nuevo/existente */
@@ -136,54 +144,41 @@
   font-size: var(--text-sm);
 }
 
-/* Barra de confirmar */
+/* Barra de confirmar en flujo normal */
 .extraction-confirm-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-4);
-  padding: var(--space-3) var(--space-4);
-  border-top: 1px solid var(--border);
+  padding: var(--space-4);
+  border: 1px solid var(--border);
   background: var(--bg-elevated);
   border-radius: var(--radius-md);
-  flex-shrink: 0;
   width: 100%;
   box-sizing: border-box;
+  margin-top: var(--space-2);
 }
 
 @media (max-width: 767px) {
-  .extraction-table-wrapper {
-    height: auto;
-    overflow: visible;
+  .mobile-scroll-hint {
+    display: block;
   }
 
   .extraction-table-container {
-    max-height: none;
-    overflow-x: auto;
+    max-height: 360px; /* Altura acotada en móvil para scroll interno limpio */
   }
 
   .extraction-confirm-bar {
-    position: fixed;
-    bottom: 72px; /* Justo sobre la barra inferior 'Caja/Inventario' */
-    left: 0;
-    right: 0;
-    width: 100%;
-    max-width: 100vw;
-    box-sizing: border-box;
-    padding: 10px 14px;
-    background: var(--bg-elevated);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    border-radius: 0;
-    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.12);
-    z-index: 90;
+    position: static; /* Estático: NUNCA tapa productos de la tabla */
     flex-direction: column;
     align-items: stretch;
-    gap: 6px;
+    padding: var(--space-3);
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
   }
 
   .extraction-confirm-bar p {
-    font-size: 11px !important;
+    font-size: 12px !important;
     text-align: center;
     margin: 0;
   }

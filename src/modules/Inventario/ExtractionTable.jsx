@@ -64,6 +64,10 @@ export default function ExtractionTable({ items, onItemsChange, onConfirm, isCon
         </span>
       </div>
 
+      <span className="mobile-scroll-hint">
+        Desliza a la derecha para ver costos y precios →
+      </span>
+
       {/* Tabla */}
       <div className="extraction-table-container">
         <table className="extraction-table" aria-label="Productos extraídos para revisión">
