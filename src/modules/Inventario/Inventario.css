@@ -186,7 +186,7 @@
 @media (max-width: 767px) {
   .inventario-layout {
     height: auto;
-    min-height: calc(100dvh - 56px - 72px);
+    min-height: calc(100dvh - 56px - 56px);
     overflow: visible;
   }
 

@@ -112,7 +112,7 @@ function AppShell() {
             id="bottom-tab-caja"
             aria-label="Caja"
           >
-            <ShoppingCart size={22} />
+            <ShoppingCart size={18} />
             <span>Caja</span>
           </button>
           <button
@@ -121,7 +121,7 @@ function AppShell() {
             id="bottom-tab-inventario"
             aria-label="Inventario"
           >
-            <Package size={22} />
+            <Package size={18} />
             <span>Inventario</span>
           </button>
         </div>
