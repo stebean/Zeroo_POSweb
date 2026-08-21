@@ -50,10 +50,7 @@ export default function LoginScreen() {
           <p className="login-error" role="alert">{authError}</p>
         )}
 
-        {/* Nota de seguridad */}
-        <p className="login-security-note">
-          🔒 Acceso protegido con OAuth 2.0 — tus datos nunca son compartidos
-        </p>
+
       </div>
     </div>
   )
