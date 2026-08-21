@@ -5,6 +5,8 @@
   flex-direction: column;
   gap: var(--space-4);
   height: 100%;
+  position: relative;
+  min-height: 0;
 }
 
 /* Resumen de badges */
@@ -13,6 +15,7 @@
   align-items: center;
   gap: var(--space-2);
   flex-shrink: 0;
+  flex-wrap: wrap;
 }
 
 /* Tabla */
@@ -21,10 +24,14 @@
   flex: 1;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
+  -webkit-overflow-scrolling: touch;
+  background: var(--bg-elevated);
+  min-height: 200px;
 }
 
 .extraction-table {
   width: 100%;
+  min-width: 600px; /* Garantizar ancho mínimo para que la tabla sea legible y editable en móvil */
   border-collapse: collapse;
   font-size: var(--text-sm);
 }
@@ -33,7 +40,7 @@
   position: sticky;
   top: 0;
   background: var(--bg-secondary);
-  z-index: 1;
+  z-index: 2;
 }
 
 .extraction-table th {
@@ -125,25 +132,51 @@
   font-size: var(--text-sm);
 }
 
-/* Barra de confirmar */
+/* Barra de confirmar (Sticky al pie para que siempre sea visible en móvil/desktop) */
 .extraction-confirm-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-4);
-  padding: var(--space-4) 0;
+  padding: var(--space-3) var(--space-4);
   border-top: 1px solid var(--border);
+  background: var(--bg-elevated);
+  border-radius: var(--radius-md);
   flex-shrink: 0;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
 }
 
 @media (max-width: 767px) {
+  .extraction-table-wrapper {
+    height: auto;
+  }
+
+  .extraction-table-container {
+    max-height: 380px;
+  }
+
   .extraction-confirm-bar {
     flex-direction: column;
     align-items: stretch;
+    padding: var(--space-3);
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.12);
+    border: 1px solid var(--border);
+    margin-top: var(--space-2);
   }
 
   .extraction-confirm-bar .btn {
     width: 100%;
     justify-content: center;
+  }
+
+  .extraction-summary {
+    font-size: var(--text-xs);
   }
 }

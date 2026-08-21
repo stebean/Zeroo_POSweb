@@ -218,9 +218,9 @@ export default function ExtractionTable({ items, onItemsChange, onConfirm, isCon
           id="confirm-inventory-btn"
         >
           {isConfirming ? (
-            <><div className="spinner" /> Confirmando...</>
+            <><div className="spinner" /> Agregando...</>
           ) : (
-            <><Check size={17} /> Confirmar ingreso</>
+            <><Check size={17} /> Agregar al inventario</>
           )}
         </button>
       </div>

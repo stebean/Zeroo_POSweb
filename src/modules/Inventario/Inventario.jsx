@@ -110,7 +110,7 @@ export default function Inventario({ addToast }) {
           id="tab-ingreso"
         >
           <Upload size={15} />
-          Ingreso de compras
+          Ingresar Productos
         </button>
         <button
           className={`subnav-tab ${view === 'list' ? 'active' : ''}`}
