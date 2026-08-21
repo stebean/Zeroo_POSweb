@@ -24,8 +24,8 @@ function AppShell() {
       {/* Barra de navegación superior */}
       <nav className="nav-top" role="navigation" aria-label="Navegación principal">
         {/* Logo */}
-        <div className="nav-logo" aria-label="POSWeb">
-          POS<span>Web</span>
+        <div className="nav-logo" aria-label="Zeroo">
+          Zer<span>oo</span>
         </div>
 
         {/* Tabs — desktop */}

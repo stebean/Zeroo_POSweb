@@ -12,8 +12,8 @@ export default function LoginScreen() {
       <div className="login-card">
         {/* Logo */}
         <div className="login-logo">
-          <span className="login-logo-text">POS<span>Web</span></span>
-          <p className="login-tagline">De la factura al inventario en segundos.</p>
+          <span className="login-logo-text">Zer<span>oo</span></span>
+          <p className="login-tagline">Punto de Venta Inteligente</p>
         </div>
 
         {/* Separador */}
