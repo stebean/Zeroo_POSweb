@@ -50,38 +50,55 @@ Reglas importantes:
 - No incluyas encabezados, totales ni servicios — solo productos individuales
 - La respuesta debe ser JSON puro, sin markdown ni explicaciones`
 
-  const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{
-          parts: [
-            {
-              inline_data: {
-                mime_type: mimeType,
-                data: base64Data
-              }
-            },
-            { text: prompt }
-          ]
-        }],
-        generationConfig: {
-          temperature: 0.1,
-          topP: 0.8,
-          maxOutputTokens: 2048,
-        }
-      })
-    }
-  )
+  const models = ['gemini-2.5-flash', 'gemini-1.5-flash']
+  let lastError = null
+  let responseData = null
 
-  if (!response.ok) {
-    const error = await response.json()
-    throw new Error(`Error de Gemini: ${error.error?.message || response.statusText}`)
+  for (const model of models) {
+    try {
+      const res = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{
+              parts: [
+                {
+                  inline_data: {
+                    mime_type: mimeType,
+                    data: base64Data
+                  }
+                },
+                { text: prompt }
+              ]
+            }],
+            generationConfig: {
+              temperature: 0.1,
+              topP: 0.8,
+              maxOutputTokens: 2048,
+            }
+          })
+        }
+      )
+
+      if (res.ok) {
+        responseData = await res.json()
+        break
+      } else {
+        const errorJson = await res.json().catch(() => ({}))
+        lastError = errorJson.error?.message || res.statusText
+      }
+    } catch (e) {
+      lastError = e.message
+    }
   }
 
-  const data = await response.json()
+  if (!responseData) {
+    throw new Error(`Error de Gemini: ${lastError || 'No se pudo conectar con el servicio de IA'}`)
+  }
+
+  const data = responseData
   const text = data.candidates?.[0]?.content?.parts?.[0]?.text
 
   if (!text) {
