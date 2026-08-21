@@ -3,6 +3,7 @@
 
 import { supabase } from './supabase'
 
+// Detecta automáticamente si estamos en localhost o producción
 const APP_URL = import.meta.env.VITE_APP_URL || window.location.origin
 
 /**
