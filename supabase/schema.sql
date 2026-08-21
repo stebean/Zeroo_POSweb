@@ -1,5 +1,5 @@
 -- ============================================================
--- POSWeb — Schema de base de datos para Supabase
+-- Schema de base de datos para Supabase
 -- Ejecutar en el SQL Editor de tu proyecto de Supabase
 -- ============================================================
 
