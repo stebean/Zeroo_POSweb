@@ -9,7 +9,7 @@ const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'application/pd
 const MAX_SIZE_MB = 10
 const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024
 
-// Factura de ejemplo hardcodeada como texto (para US-05)
+// Comprobante de ejemplo (para US-05)
 const SAMPLE_INVOICE_TEXT = `DISTRIBUIDORA OMEGA S.A. DE C.V.
 RFC: DOM901231AB3 | Tel: 555-123-4567
 Factura No: F-2024-0891 | Fecha: 15/01/2024
@@ -127,7 +127,7 @@ export default function UploadZone({ onFileSelected, onSampleInvoice, isProcessi
       {/* Botón de prueba (US-05) */}
       <div className="sample-invoice-bar">
         <FlaskConical size={15} />
-        <span>¿Quieres probar sin una factura real?</span>
+        <span>¿Sin comprobante a la mano?</span>
         <button
           className="btn btn-secondary btn-sm"
           onClick={handleSampleInvoice}
@@ -135,7 +135,7 @@ export default function UploadZone({ onFileSelected, onSampleInvoice, isProcessi
           id="sample-invoice-btn"
         >
           <Sparkles size={13} />
-          Probar con factura de ejemplo
+          Probar con ejemplo
         </button>
       </div>
 
@@ -169,10 +169,13 @@ export default function UploadZone({ onFileSelected, onSampleInvoice, isProcessi
             </div>
             <div>
               <p className="upload-title">
-                {isDragging ? 'Suelta el archivo aquí' : 'Arrastra tu factura aquí'}
+                {isDragging ? 'Suelta aquí' : 'Sube tu comprobante de compra'}
               </p>
               <p className="upload-subtitle">
-                o <span className="upload-link">haz clic para seleccionar</span> · también puedes pegar con Ctrl+V
+                Factura · Ticket · Nota a mano · Foto del recibo
+              </p>
+              <p className="upload-subtitle" style={{ marginTop: 4 }}>
+                o <span className="upload-link">haz clic para seleccionar</span> · pega con Ctrl+V
               </p>
             </div>
             <div className="upload-types">

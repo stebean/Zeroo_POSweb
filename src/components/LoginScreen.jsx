@@ -21,7 +21,7 @@ export default function LoginScreen() {
 
         {/* CTA */}
         <p className="login-description">
-          Inicia sesión para acceder al sistema de punto de venta e inventario inteligente.
+          Sube facturas, tickets, notas a mano o fotos de recibos — la IA extrae los productos y actualiza tu inventario automáticamente.
         </p>
 
         {/* Botón Google */}

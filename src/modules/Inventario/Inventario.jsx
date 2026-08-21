@@ -133,7 +133,7 @@ export default function Inventario({ addToast }) {
           {/* Panel izquierdo: upload / preview documento */}
           <div className="split-left">
             <div className="split-section-header">
-              <h2>Comprobante de compra</h2>
+              <h2>Factura, ticket o nota de compra</h2>
               {view === 'review' && (
                 <button
                   className="btn btn-secondary btn-sm"
